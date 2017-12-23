@@ -9,6 +9,9 @@ from pygame.sprite import *
 from assets import *
 from location import Location
 from locationqueue import LocationQueue
+"""@author: Jamison Ball
+   @date: 12.23.2017
+   @last updated: 12.23.2017"""
 
 class Partner(Sprite):
 	def __init__(self, x, y, target):
@@ -20,6 +23,7 @@ class Partner(Sprite):
 		self.rect = self.image.get_rect()
 		self.rect.x = x
 		self.rect.y = y
+		self.dist = 50
 		
 		self.dx = 0
 		self.dy = 0
@@ -33,31 +37,31 @@ class Partner(Sprite):
 		
 		#exclusive x movement
 		if self.target.cur_loc.x_gr(self.cur_loc):
-			temp.setx(self.target.cur_loc.xc - 50)
+			temp.setx(self.target.cur_loc.xc - self.dist)
 		
 		if self.target.cur_loc.x_gr(self.cur_loc) and self.target.dx < 0:
-			temp.setx(self.target.cur_loc.xc + 50)
+			temp.setx(self.target.cur_loc.xc + self.dist)
 			
 		if self.target.cur_loc.x_lt(self.cur_loc):
-			temp.setx(self.target.cur_loc.xc + 50)
+			temp.setx(self.target.cur_loc.xc + self.dist)
 		
 		if self.target.cur_loc.x_lt(self.cur_loc) and self.target.dx > 0:
-			temp.setx(self.target.cur_loc.xc - 50)
+			temp.setx(self.target.cur_loc.xc - self.dist)
 		
 		#exclusive y movement
 		if self.target.cur_loc.y_gr(self.cur_loc):
 			temp.setx(self.target.prev_loc.xc)
-			temp.sety(self.target.cur_loc.yc - 50)
+			temp.sety(self.target.cur_loc.yc - self.dist)
 		
 		if self.target.cur_loc.y_lt(self.cur_loc):
 			temp.setx(self.target.prev_loc.xc)
-			temp.sety(self.target.cur_loc.yc + 50)
+			temp.sety(self.target.cur_loc.yc + self.dist)
 			
 		if self.target.cur_loc.y_gr(self.cur_loc) and self.target.dx == 0 and self.target.dy < 0:
-			temp.sety(self.target.cur_loc.yc + 50)
+			temp.sety(self.target.cur_loc.yc + self.dist)
 			
 		if self.target.cur_loc.y_lt(self.cur_loc) and self.target.dx == 0 and self.target.dy > 0:
-			temp.sety(self.target.cur_loc.yc - 50)
+			temp.sety(self.target.cur_loc.yc - self.dist)
 			
 		#xy movement
 		if self.target.cur_loc.y_gr(self.cur_loc) and self.target.dx < 0:
@@ -79,16 +83,16 @@ class Partner(Sprite):
 			target_loc = self.path.dequeue()
 			
 			if self.cur_loc.x_lt(target_loc):
-				self.dx = 1
+				self.dx = 10
 			elif self.cur_loc.x_gr(target_loc):
-				self.dx = -1
+				self.dx = -10
 			elif self.cur_loc.xc == target_loc.xc:
 				self.dx = 0
 			
 			if self.cur_loc.y_lt(target_loc):
-				self.dy = 1
+				self.dy = 10
 			elif self.cur_loc.y_gr(target_loc):
-				self.dy = -1
+				self.dy = -10
 			elif self.cur_loc.yc == target_loc.yc:
 				self.dy = 0
 		
